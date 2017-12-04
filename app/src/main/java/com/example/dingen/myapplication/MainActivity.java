@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    public RestoDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, fragment, "categories");
         ft.commit();
+        db = RestoDatabase.getInstance(getApplicationContext());
+        db.databasefill();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

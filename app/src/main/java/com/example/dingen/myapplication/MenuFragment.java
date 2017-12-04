@@ -46,17 +46,16 @@ public class MenuFragment extends ListFragment {
         Log.d("string add", add);
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-        final String url = "https://resto.mprog.nl/menu?category="+add;
+        final String url = "https://resto.mprog.nl/menu?category=" + add;
         Log.d("string url", url);
 
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("json response", response.toString());
-                        try{
-                            JSONArray categories  = response.getJSONArray("items");
+                        try {
+                            JSONArray categories = response.getJSONArray("items");
                             Log.d("json", categories.toString());
                             for (int i = 0; i < categories.length(); i++) {
                                 JSONObject subitem = categories.getJSONObject(i);
@@ -68,8 +67,7 @@ public class MenuFragment extends ListFragment {
                         }
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Error.Response", error.toString());
@@ -83,17 +81,17 @@ public class MenuFragment extends ListFragment {
 
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        String name = l.getItemAtPosition(position).toString();
+        RestoDatabase db = RestoDatabase.getInstance(getContext());
+        db.addItem(name);
 
-    public void updateAdapter(){
+    }
+
+    public void updateAdapter() {
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, menuItems);
         this.setListAdapter(adapter);
     }
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//        RestoDatabase db = RestoDatabase.getInstance(getContext());
-//        String name = l.getItemAtPosition(position).toString();
-//        db.addItem(name);
-//        Log.d(" stingnamelist", name);
-//    }
 }
